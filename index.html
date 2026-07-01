@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Injibara University - Official Website</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <p>Loading Injibara University...</p>
+        </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="contact-info">
+                <a href="tel:+251-(0)58-227-21-11"><i class="fas fa-phone"></i> +251-(0)58-227-21-11</a>
+                <a href="mailto:injibarauniversity@inu.edu.et"><i class="fas fa-envelope"></i> injibarauniversity@inu.edu.et</a>
+                <span><i class="fas fa-map-marker-alt"></i> 40 PO Box, Injibara, Ethiopia</span>
+            </div>
+            <div class="top-bar-right">
+                <div class="search-box">
+                    <input type="text" placeholder="Search..." id="searchInput">
+                    <button onclick="performSearch()"><i class="fas fa-search"></i></button>
+                </div>
+                <button id="darkModeToggle" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="https://www.inu.edu.et/wp-content/uploads/2024/06/INU_DARK_LOGO1.png" alt="INU Logo" id="logoImg">
+            </div>
+            <nav class="navbar" id="navbar">
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">About Us <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#about">About Injibara University</a></li>
+                            <li><a href="#mission">Mission, Vision, Values</a></li>
+                            <li><a href="#gallery">Photo Gallery</a></li>
+                            <li><a href="#contact">Contact Us</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">Latest <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#news">News</a></li>
+                            <li><a href="#announcements">Announcements</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">Administration <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#president">President Office</a></li>
+                            <li><a href="#vp-academic">Academic VP</a></li>
+                            <li><a href="#vp-admin">Admin & Student VP</a></li>
+                            <li><a href="#vp-research">Research VP</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">Academics <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#colleges">Colleges</a></li>
+                            <li><a href="#undergraduate">Undergraduate Programs</a></li>
+                            <li><a href="#postgraduate">Postgraduate Programs</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a href="#research" class="nav-link">Research</a></li>
+                    <li class="nav-item"><a href="#partnership" class="nav-link">Partnership</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Slider -->
+    <section class="hero-slider" id="home">
+        <div class="slider-container">
+            <div class="slide active">
+                <div class="slide-bg" style="background-image: url('https://www.inu.edu.et/wp-content/uploads/2025/11/Student-Life-2.jpg')"></div>
+                <div class="slide-content">
+                    <h1>Welcome to Injibara University</h1>
+                    <p>Excellence in Education, Research, and Innovation</p>
+                    <a href="#about" class="btn btn-primary">Explore More</a>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-bg" style="background-image: url('https://www.inu.edu.et/wp-content/uploads/2025/11/maxresdefault.jpg')"></div>
+                <div class="slide-content">
+                    <h1>Shape Your Future</h1>
+                    <p>Join thousands of students in pursuing academic excellence</p>
+                    <a href="#programs" class="btn btn-primary">View Programs</a>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-bg" style="background-image: url('https://www.inu.edu.et/wp-content/uploads/2025/10/photo_2025-10-16_05-51-04.jpg')"></div>
+                <div class="slide-content">
+                    <h1>Research & Innovation</h1>
+                    <p>Contributing to society and national development</p>
+                    <a href="#research" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <button class="slider-btn prev" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-btn next" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
+        <div class="slider-dots">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item" data-aos="fade-up">
+                    <i class="fas fa-user-graduate"></i>
+                    <div class="counter" data-target="15000">0</div>
+                    <p>Students</p>
+                </div>
+                <div class="stat-item" data-aos="fade-up">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <div class="counter" data-target="800">0</div>
+                    <p>Faculty Members</p>
+                </div>
+                <div class="stat-item" data-aos="fade-up">
+                    <i class="fas fa-building"></i>
+                    <div class="counter" data-target="8">0</div>
+                    <p>Colleges</p>
+                </div>
+                <div class="stat-item" data-aos="fade-up">
+                    <i class="fas fa-globe-africa"></i>
+                    <div class="counter" data-target="50">0</div>
+                    <p>Programs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section" id="about">
+        <div class="container">
+            <div class="welcome-content">
+                <div class="welcome-text">
+                    <h2>Welcome to Injibara University</h2>
+                    <p class="lead">We are committed to excellence in education, research, and innovation, shaping responsible and capable graduates who contribute to society and national development.</p>
+                    <p>Our university fosters integrity, critical thinking, and leadership in a supportive academic environment. Located in the heart of Injibara, Ethiopia, we serve as a beacon of higher education in the Amhara region.</p>
+                    <div class="president-info">
+                        <img src="https://www.inu.edu.et/wp-content/uploads/2024/06/dr-gerdachew-scaled-2-1024x683-1.jpg" alt="President">
+                        <div>
+                            <h4>Gardachew Worku (PhD)</h4>
+                            <p>University President</p>
+                        </div>
+                    </div>
+                    <a href="#readmore" class="btn btn-secondary">Read More</a>
+                </div>
+                <div class="welcome-image">
+                    <img src="https://www.inu.edu.et/wp-content/uploads/2026/01/1767340850645.jpg" alt="Campus">
+                    <div class="image-overlay">
+                        <div class="play-btn" onclick="openVideoModal()">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section class="leadership-section" id="president">
+        <div class="container">
+            <h2 class="section-title">University Leadership</h2>
+            <div class="leadership-grid">
+                <div class="leader-card">
+                    <div class="leader-img">
+                        <img src="https://www.inu.edu.et/wp-content/uploads/2024/06/dr-gerdachew-scaled-2-1024x683-1.jpg" alt="President">
+                    </div>
+                    <div class="leader-info">
+                        <h3>Gardachew Worku (PhD)</h3>
+                        <p class="title">President</p>
+                        <p class="subtitle">Associate Professor of Accounting and Finance</p>
+                        <button class="btn btn-outline" onclick="openModal('president')">View Profile</button>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-img">
+                        <img src="https://www.inu.edu.et/wp-content/uploads/2024/06/dr-amro-scaled-1-1024x548-1.jpg" alt="Academic VP">
+                    </div>
+                    <div class="leader-info">
+                        <h3>Aemiro Tadesse (PhD)</h3>
+                        <p class="title">Academic Affairs VP</p>
+                        <p class="subtitle">Assistant Professor of Psychology</p>
+                        <button class="btn btn-outline" onclick="openModal('academic-vp')">View Profile</button>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-img">
+                        <img src="https://www.inu.edu.et/wp-content/uploads/2024/06/ww-1024x682-1.jpg" alt="Admin VP">
+                    </div>
+                    <div class="leader-info">
+                        <h3>Wohabe Birhan (PhD)</h3>
+                        <p class="title">Admin & Development VP</p>
+                        <p class="subtitle">Associate Professor of Applied Developmental Psychology</p>
+                        <button class="btn btn-outline" onclick="openModal('admin-vp')">View Profile</button>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-img">
+                        <img src="https://www.inu.edu.et/wp-content/uploads/2024/06/Dr-Kindie-PhD-1024x683-1.jpg" alt="Research VP">
+                    </div>
+                    <div class="leader-info">
+                        <h3>Kindie Birhan (PhD)</h3>
+                        <p class="title">Research & Community Service VP</p>
+                        <p class="subtitle">Assistant Professor of Education</p>
+                        <button class="btn btn-outline" onclick="openModal('research-vp')">View Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest News -->
+    <section class="news-section" id="news">
+        <div class="container">
+            <h2 class="section-title">Latest News</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://www.inu.edu.et/wp-content/uploads/2026/04/photo_2026-03-31_17-46-01-2.jpg" alt="News">
+                        <span class="news-date">March 31, 2026</span>
+                    </div>
+                    <div class="news-content">
+                        <h3>INU and Regional Universities Sign Innovation Agreement</h3>
+                        <p>እንጅባራ ዩኒቨርስቲ እና ሌሎች በአማራ ክልል የሚገኙ ዩኒቨርሲቲዎች ከክልሉ ኢኖቬሽንና ቴክኖሎጂ ቢሮ ጋር በጋራ ለመስራት የጋራ ስምምነት ተፈራረሙ።</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://www.inu.edu.et/wp-content/uploads/2026/02/Promise-150x100.jpg" alt="News">
+                        <span class="news-date">February 12, 2026</span>
+                    </div>
+                    <div class="news-content">
+                        <h3>INU Holds Welcome Ceremony for New Students</h3>
+                        <p>የካቲት 05/2018 ዓ.ም፤ እንጅባራ ዩኒቨርሲቲ ከሀገራችንና ከተለያዩ የአፍሪካ ሀገራት ወደ ዩኒቨርሲቲው የተቀላቀሉ አዲስ ተማሪዎች...</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://www.inu.edu.et/wp-content/uploads/2026/02/WorkShop-150x100.jpg" alt="News">
+                        <span class="news-date">February 12, 2026</span>
+                    </div>
+                    <div class="news-content">
+                        <h3>PhD in Education Program External Validation Workshop</h3>
+                        <p>በ PhD in Education የ3ኛ ዲግሪ(PhD) ለመክፈት የውጭ ሥርዓተ-ትምህርት ግምገማ (External validation workshop) ተካሄደ፡፡</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="#" class="btn btn-primary">View All News</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>SIMS</h3>
+                    <p>School Information Management System</p>
+                    <a href="http://172.16.2.2" class="btn btn-service">Access SIMS</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>E-SHE</h3>
+                    <p>Electronic Student and Higher Education</p>
+                    <a href="https://courses.inu.edu.et/" class="btn btn-service">Access E-SHE</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>ICT</h3>
+                    <p>Information Communication Technology</p>
+                    <a href="https://ict.inu.edu.et/" class="btn btn-service">Access ICT</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>E-Learning</h3>
+                    <p>Online Education Platform</p>
+                    <a href="#" class="btn btn-service">Access E-Learning</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners-section" id="partnership">
+        <div class="container">
+            <h2 class="section-title">Our Partners</h2>
+            <div class="partners-slider">
+                <div class="partners-track">
+                    <div class="partner-logo"><img src="https://www.inu.edu.et/wp-content/uploads/2025/02/logo-100x100-2.jpg" alt="Partner"></div>
+                    <div class="partner-logo"><img src="https://www.inu.edu.et/wp-content/uploads/2025/02/download-100x100-1.png" alt="Partner"></div>
+                    <div class="partner-logo"><img src="https://www.inu.edu.et/wp-content/uploads/2025/02/Academics-without-boarder-100x100-1.jpg" alt="Partner"></div>
+                    <div class="partner-logo"><img src="https://www.inu.edu.et/wp-content/uploads/2025/02/Injibara-general-Hospital-100x100-1.jpg" alt="Partner"></div>
+                    <div class="partner-logo"><img src="https://www.inu.edu.et/wp-content/uploads/2025/02/Amahara-Bank1-100x100-1.png" alt="Partner"></div>
+                    <div class="partner-logo"><img src="https://www.inu.edu.et/wp-content/uploads/2025/10/Kenya-Utalii-College.png" alt="Partner"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-grid">
+                <div class="contact-info-box">
+                    <h3>Get in Touch</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Injibara University President Office, Injibara, Ethiopia</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+251-(0)58-227-21-11</p>
+                            <p>+251-(0)58-227-16-74</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>injibarauniversity@inu.edu.et</p>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form-box">
+                    <h3>Send us a Message</h3>
+                    <form id="contactForm" onsubmit="submitForm(event)">
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="https://www.inu.edu.et/wp-content/uploads/2024/06/INU_DARK_LOGO1.png" alt="INU Logo" class="footer-logo">
+                    <p>Injibara University is committed to providing quality education and fostering innovation for national development.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#news">News</a></li>
+                        <li><a href="#research">Research</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Academics</h4>
+                    <ul>
+                        <li><a href="#">Colleges</a></li>
+                        <li><a href="#">Undergraduate Programs</a></li>
+                        <li><a href="#">Postgraduate Programs</a></li>
+                        <li><a href="#">Library</a></li>
+                        <li><a href="#">Registrar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Visitor Counter</h4>
+                    <div class="visitor-counter">
+                        <p><i class="fas fa-users"></i> Users Today: <span id="usersToday">136</span></p>
+                        <p><i class="fas fa-calendar"></i> This Month: <span id="usersMonth">590</span></p>
+                        <p><i class="fas fa-globe"></i> Total Users: <span id="usersTotal">196038</span></p>
+                        <p><i class="fas fa-eye"></i> Views Today: <span id="viewsToday">217</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Injibara University. All Rights Reserved. | Software developed by ICT Executive</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeVideoModal()">&times;</span>
+            <div class="video-container">
+                <iframe id="videoFrame" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leader Modal -->
+    <div id="leaderModal" class="modal">
+        <div class="modal-content leader-modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
