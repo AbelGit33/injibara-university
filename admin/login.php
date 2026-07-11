@@ -25,8 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['admin_name'] = $user['full_name'];
                 $_SESSION['admin_role'] = $user['role'];
                 
-                // Update last login
-                $conn->query("UPDATE admin_users SET last_login = NOW() WHERE id = " . $user['id']);
+                $update = $conn->prepare("UPDATE admin_users SET last_login = NOW() WHERE id = ?");
+                $update->bind_param("i", $user['id']);
+                $update->execute();
                 
                 header("Location: index.php");
                 exit();
@@ -81,7 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
             
             <div class="login-footer">
-                <p><i class="fas fa-info-circle"></i> Default: admin / admin123</p>
                 <a href="../index.html"><i class="fas fa-arrow-left"></i> Back to Website</a>
             </div>
         </div>

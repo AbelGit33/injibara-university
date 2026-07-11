@@ -59,7 +59,7 @@ $conn->close();
                             <td><?php echo htmlspecialchars($sc['course_code']); ?></td>
                             <td><?php echo htmlspecialchars($sc['course_name']); ?></td>
                             <td>
-                                <select class="grade-select" onchange="assignGrade(<?php echo $sc['id']; ?>, this.value)">
+                                <select class="grade-select" onchange="assignGrade(<?php echo (int)$sc['id']; ?>, this.value)">
                                     <option value="">Select</option>
                                     <option value="A" <?php echo $sc['grade']=='A'?'selected':''; ?>>A</option>
                                     <option value="B+" <?php echo $sc['grade']=='B+'?'selected':''; ?>>B+</option>
@@ -70,9 +70,9 @@ $conn->close();
                                     <option value="F" <?php echo $sc['grade']=='F'?'selected':''; ?>>F</option>
                                 </select>
                             </td>
-                            <td><span class="badge <?php echo strtolower($sc['status']); ?>"><?php echo $sc['status']; ?></span></td>
+                            <td><span class="badge <?php echo htmlspecialchars(strtolower($sc['status']), ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($sc['status'], ENT_QUOTES, 'UTF-8'); ?></span></td>
                             <td>
-                                <button class="btn-icon" onclick="updateStatus(<?php echo $sc['id']; ?>, '<?php echo $sc['status']=='Completed'?'Enrolled':'Completed'; ?>')">
+                                <button class="btn-icon" onclick="updateStatus(<?php echo (int)$sc['id']; ?>, '<?php echo $sc['status']==='Completed'?'Enrolled':'Completed'; ?>')">
                                     <i class="fas fa-sync-alt"></i>
                                 </button>
                             </td>

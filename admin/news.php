@@ -22,10 +22,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Handle image upload
         $image = '';
         if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-            $target_dir = "../uploads/news/";
-            if (!is_dir($target_dir)) mkdir($target_dir, 0777, true);
-            $image = $target_dir . basename($_FILES["image"]["name"]);
-            move_uploaded_file($_FILES["image"]["tmp_name"], $image);
+            $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            $max_size = 5 * 1024 * 1024; // 5MB
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mime = finfo_file($finfo, $_FILES['image']['tmp_name']);
+            finfo_close($finfo);
+
+            if (in_array($mime, $allowed_types) && $_FILES['image']['size'] <= $max_size) {
+                $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                $target_dir = "../uploads/news/";
+                if (!is_dir($target_dir)) mkdir($target_dir, 0755, true);
+                $filename = uniqid('news_', true) . '.' . strtolower($ext);
+                $image = $target_dir . $filename;
+                move_uploaded_file($_FILES["image"]["tmp_name"], $image);
+            }
         }
         
         if ($action === 'add') {
@@ -47,8 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if ($action === 'delete') {
-        $id = $_POST['id'];
-        $conn->query("DELETE FROM news WHERE id=$id");
+        $id = (int)$_POST['id'];
+        $stmt = $conn->prepare("DELETE FROM news WHERE id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         $message = "News deleted successfully!";
     }
 }
@@ -80,7 +92,7 @@ $conn->close();
             
             <?php if (isset($message)): ?>
                 <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i> <?php echo $message; ?>
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
                 </div>
             <?php endif; ?>
             
@@ -102,17 +114,17 @@ $conn->close();
                             <td><?php echo htmlspecialchars($n['title']); ?></td>
                             <td><?php echo htmlspecialchars($n['author'] ?? 'Unknown'); ?></td>
                             <td><?php echo date('M d, Y', strtotime($n['publish_date'])); ?></td>
-                            <td><span class="badge <?php echo strtolower($n['status']); ?>"><?php echo $n['status']; ?></span></td>
+                            <td><span class="badge <?php echo htmlspecialchars(strtolower($n['status']), ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($n['status'], ENT_QUOTES, 'UTF-8'); ?></span></td>
                             <td>
                                 <?php if($n['image']): ?>
-                                    <img src="<?php echo $n['image']; ?>" alt="News" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <img src="<?php echo htmlspecialchars($n['image'], ENT_QUOTES, 'UTF-8'); ?>" alt="News" style="width: 50px; height: 50px; object-fit: cover;">
                                 <?php endif; ?>
                             </td>
                             <td>
                                 <button class="btn-icon" onclick="editNews(<?php echo htmlspecialchars(json_encode($n)); ?>)">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo $n['id']; ?>, 'news')">
+                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo (int)$n['id']; ?>, 'news')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>

@@ -47,7 +47,7 @@ $conn->close();
             
             <?php if (isset($message)): ?>
                 <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i> <?php echo $message; ?>
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
                 </div>
             <?php endif; ?>
             
@@ -60,22 +60,22 @@ $conn->close();
                         
                         <div class="form-group">
                             <label>Site Name</label>
-                            <input type="text" name="site_name" value="<?php echo $settings['site_name']; ?>">
+                            <input type="text" name="site_name" value="<?php echo htmlspecialchars($settings['site_name'], ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         
                         <div class="form-group">
                             <label>Site Email</label>
-                            <input type="email" name="site_email" value="<?php echo $settings['site_email']; ?>">
+                            <input type="email" name="site_email" value="<?php echo htmlspecialchars($settings['site_email'], ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="text" name="site_phone" value="<?php echo $settings['site_phone']; ?>">
+                            <input type="text" name="site_phone" value="<?php echo htmlspecialchars($settings['site_phone'], ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         
                         <div class="form-group">
                             <label>Address</label>
-                            <textarea name="site_address" rows="3"><?php echo $settings['site_address']; ?></textarea>
+                            <textarea name="site_address" rows="3"><?php echo htmlspecialchars($settings['site_address'], ENT_QUOTES, 'UTF-8'); ?></textarea>
                         </div>
                         
                         <button type="submit" class="btn btn-primary">
@@ -90,7 +90,7 @@ $conn->close();
                     <form method="POST" action="">
                         <div class="form-group">
                             <label>Current Academic Year</label>
-                            <input type="text" name="academic_year" value="<?php echo $settings['academic_year']; ?>">
+                            <input type="text" name="academic_year" value="<?php echo htmlspecialchars($settings['academic_year'], ENT_QUOTES, 'UTF-8'); ?>">
                         </div>
                         
                         <div class="form-group">
@@ -130,11 +130,11 @@ $conn->close();
                         </tr>
                         <tr>
                             <td>Server Software</td>
-                            <td><?php echo $_SERVER['SERVER_SOFTWARE'] ?? 'N/A'; ?></td>
+                            <td><?php echo htmlspecialchars($_SERVER['SERVER_SOFTWARE'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                         <tr>
                             <td>Database</td>
-                            <td>MySQL <?php echo $conn->server_info ?? 'N/A'; ?></td>
+                            <td>MySQL <?php echo htmlspecialchars($conn->server_info ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                         <tr>
                             <td>System Time</td>

@@ -36,8 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if ($action === 'delete') {
-        $id = $_POST['id'];
-        $conn->query("DELETE FROM courses WHERE id=$id");
+        $id = (int)$_POST['id'];
+        $stmt = $conn->prepare("DELETE FROM courses WHERE id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         $message = "Course deleted successfully!";
     }
 }
@@ -69,7 +71,7 @@ $conn->close();
             
             <?php if (isset($message)): ?>
                 <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i> <?php echo $message; ?>
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
                 </div>
             <?php endif; ?>
             
@@ -91,15 +93,15 @@ $conn->close();
                         <tr>
                             <td><?php echo htmlspecialchars($course['course_code']); ?></td>
                             <td><?php echo htmlspecialchars($course['course_name']); ?></td>
-                            <td><?php echo $course['credit_hours']; ?></td>
-                            <td><?php echo $course['semester']; ?></td>
-                            <td><?php echo $course['year']; ?></td>
+                            <td><?php echo htmlspecialchars((string)$course['credit_hours'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($course['semester'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars((string)$course['year'], ENT_QUOTES, 'UTF-8'); ?></td>
                             <td><?php echo htmlspecialchars($course['department_name'] ?? 'N/A'); ?></td>
                             <td>
                                 <button class="btn-icon" onclick="editCourse(<?php echo htmlspecialchars(json_encode($course)); ?>)">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo $course['id']; ?>, 'course')">
+                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo (int)$course['id']; ?>, 'course')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>

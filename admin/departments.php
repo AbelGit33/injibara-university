@@ -35,8 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if ($action === 'delete') {
-        $id = $_POST['id'];
-        $conn->query("DELETE FROM departments WHERE id=$id");
+        $id = (int)$_POST['id'];
+        $stmt = $conn->prepare("DELETE FROM departments WHERE id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         $message = "Department deleted successfully!";
     }
 }
@@ -74,7 +76,7 @@ $conn->close();
             
             <?php if (isset($message)): ?>
                 <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i> <?php echo $message; ?>
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
                 </div>
             <?php endif; ?>
             
@@ -100,7 +102,7 @@ $conn->close();
                                 <button class="btn-icon" onclick="editDepartment(<?php echo htmlspecialchars(json_encode($dept)); ?>)">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo $dept['id']; ?>, 'department')">
+                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo (int)$dept['id']; ?>, 'department')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -137,7 +139,7 @@ $conn->close();
                     <select name="college_id" id="college_id">
                         <option value="">Select College</option>
                         <?php while($college = $colleges->fetch_assoc()): ?>
-                            <option value="<?php echo $college['id']; ?>"><?php echo htmlspecialchars($college['college_name']); ?></option>
+                            <option value="<?php echo (int)$college['id']; ?>"><?php echo htmlspecialchars($college['college_name']); ?></option>
                         <?php endwhile; ?>
                     </select>
                 </div>

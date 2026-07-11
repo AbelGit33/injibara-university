@@ -39,8 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if ($action === 'delete') {
-        $id = $_POST['id'];
-        $conn->query("DELETE FROM students WHERE id=$id");
+        $id = (int)$_POST['id'];
+        $stmt = $conn->prepare("DELETE FROM students WHERE id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         $message = "Student deleted successfully!";
     }
 }
@@ -73,7 +75,7 @@ $conn->close();
             
             <?php if (isset($message)): ?>
                 <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i> <?php echo $message; ?>
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
                 </div>
             <?php endif; ?>
             
@@ -106,21 +108,21 @@ $conn->close();
                     <tbody>
                         <?php while($student = $students->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo $student['id']; ?></td>
+                            <td><?php echo (int)$student['id']; ?></td>
                             <td><?php echo htmlspecialchars($student['student_id']); ?></td>
                             <td><?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name']); ?></td>
                             <td><?php echo htmlspecialchars($student['email']); ?></td>
                             <td><?php echo htmlspecialchars($student['program']); ?></td>
-                            <td><?php echo $student['year_of_study']; ?></td>
-                            <td><span class="badge <?php echo strtolower($student['status']); ?>"><?php echo $student['status']; ?></span></td>
+                            <td><?php echo htmlspecialchars((string)$student['year_of_study'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><span class="badge <?php echo htmlspecialchars(strtolower($student['status']), ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($student['status'], ENT_QUOTES, 'UTF-8'); ?></span></td>
                             <td>
                                 <button class="btn-icon" onclick="editStudent(<?php echo htmlspecialchars(json_encode($student)); ?>)">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo $student['id']; ?>, 'student')">
+                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo (int)$student['id']; ?>, 'student')">
                                     <i class="fas fa-trash"></i>
                                 </button>
-                                <button class="btn-icon" onclick="viewStudent(<?php echo $student['id']; ?>)">
+                                <button class="btn-icon" onclick="viewStudent(<?php echo (int)$student['id']; ?>)">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </td>

@@ -34,8 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if ($action === 'delete') {
-        $id = $_POST['id'];
-        $conn->query("DELETE FROM announcements WHERE id=$id");
+        $id = (int)$_POST['id'];
+        $stmt = $conn->prepare("DELETE FROM announcements WHERE id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         $message = "Announcement deleted successfully!";
     }
 }
@@ -67,7 +69,7 @@ $conn->close();
             
             <?php if (isset($message)): ?>
                 <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i> <?php echo $message; ?>
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
                 </div>
             <?php endif; ?>
             
@@ -87,15 +89,15 @@ $conn->close();
                         <?php while($a = $announcements->fetch_assoc()): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($a['title']); ?></td>
-                            <td><?php echo $a['category']; ?></td>
+                            <td><?php echo htmlspecialchars($a['category'], ENT_QUOTES, 'UTF-8'); ?></td>
                             <td><?php echo htmlspecialchars($a['author'] ?? 'Unknown'); ?></td>
                             <td><?php echo date('M d, Y', strtotime($a['publish_date'])); ?></td>
-                            <td><span class="badge <?php echo strtolower($a['status']); ?>"><?php echo $a['status']; ?></span></td>
+                            <td><span class="badge <?php echo htmlspecialchars(strtolower($a['status']), ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($a['status'], ENT_QUOTES, 'UTF-8'); ?></span></td>
                             <td>
                                 <button class="btn-icon" onclick="editAnnouncement(<?php echo htmlspecialchars(json_encode($a)); ?>)">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo $a['id']; ?>, 'announcement')">
+                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo (int)$a['id']; ?>, 'announcement')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>

@@ -13,6 +13,10 @@ $type = $_GET['type'] ?? '';
 $conn = getConnection();
 
 header('Content-Type: text/csv');
+$allowed_types = ['students', 'attendance', 'grades'];
+if (!in_array($type, $allowed_types)) {
+    exit('Invalid report type');
+}
 header('Content-Disposition: attachment; filename="' . $type . '_report_' . date('Y-m-d') . '.csv"');
 
 $output = fopen('php://output', 'w');

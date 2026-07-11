@@ -11,7 +11,10 @@ require_once('../config/database.php');
 $conn = getConnection();
 
 // Get current user
-$user = $conn->query("SELECT * FROM admin_users WHERE id=" . $_SESSION['admin_id'])->fetch_assoc();
+$stmt = $conn->prepare("SELECT * FROM admin_users WHERE id=?");
+$stmt->bind_param("i", $_SESSION['admin_id']);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
 
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
@@ -24,7 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     
     $_SESSION['admin_name'] = $full_name;
     $message = "Profile updated successfully!";
-    $user = $conn->query("SELECT * FROM admin_users WHERE id=" . $_SESSION['admin_id'])->fetch_assoc();
+    $stmt = $conn->prepare("SELECT * FROM admin_users WHERE id=?");
+    $stmt->bind_param("i", $_SESSION['admin_id']);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
 }
 
 // Handle password change
@@ -36,7 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
     if (password_verify($current, $user['password'])) {
         if ($new === $confirm && strlen($new) >= 6) {
             $hashed = password_hash($new, PASSWORD_DEFAULT);
-            $conn->query("UPDATE admin_users SET password='$hashed' WHERE id=" . $_SESSION['admin_id']);
+            $stmt = $conn->prepare("UPDATE admin_users SET password=? WHERE id=?");
+            $stmt->bind_param("si", $hashed, $_SESSION['admin_id']);
+            $stmt->execute();
             $message = "Password changed successfully!";
         } else {
             $error = "New passwords don't match or are too short!";
@@ -67,13 +75,13 @@ $conn->close();
             
             <?php if (isset($message)): ?>
                 <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i> <?php echo $message; ?>
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message); ?>
                 </div>
             <?php endif; ?>
             
             <?php if (isset($error)): ?>
                 <div class="alert alert-error">
-                    <i class="fas fa-exclamation-circle"></i> <?php echo $error; ?>
+                    <i class="fas fa-exclamation-circle"></i> <?php echo htmlspecialchars($error); ?>
                 </div>
             <?php endif; ?>
             

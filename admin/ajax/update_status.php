@@ -18,8 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $allowed_tables = ['students', 'faculty', 'courses', 'student_courses', 'announcements', 'news'];
     
-    if (in_array($type, $allowed_tables)) {
-        $conn->query("UPDATE $type SET status='$status' WHERE id=$id");
+    $allowed_statuses = ['Active', 'Inactive', 'Graduated', 'Suspended', 'Enrolled', 'Completed', 'Failed', 'Withdrawn', 'Draft', 'Published', 'Archived', 'On Leave', 'Present', 'Absent', 'Late'];
+
+    if (in_array($type, $allowed_tables) && in_array($status, $allowed_statuses)) {
+        $id = (int)$id;
+        $stmt = $conn->prepare("UPDATE $type SET status=? WHERE id=?");
+        $stmt->bind_param("si", $status, $id);
+        $stmt->execute();
         echo json_encode(['success' => true]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Invalid table']);

@@ -89,7 +89,7 @@ $conn->close();
                 <div class="stat-card warning">
                     <div class="stat-icon"><i class="fas fa-percentage"></i></div>
                     <div class="stat-info">
-                        <h3><?php echo $stats['attendance_rate']; ?>%</h3>
+                        <h3><?php echo htmlspecialchars((string)$stats['attendance_rate'], ENT_QUOTES, 'UTF-8'); ?>%</h3>
                         <p>Attendance Rate Today</p>
                     </div>
                 </div>
@@ -134,7 +134,7 @@ $conn->close();
             labels: [<?php 
                 $labels = [];
                 while($row = $students_by_college->fetch_assoc()) {
-                    $labels[] = "'" . addslashes($row['college_name'] ?? 'Unknown') . "'";
+                    $labels[] = json_encode($row['college_name'] ?? 'Unknown');
                 }
                 echo implode(',', $labels);
             ?>],

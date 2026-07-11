@@ -205,7 +205,7 @@ $conn->close();
                                 <td><?php echo htmlspecialchars($student['student_id']); ?></td>
                                 <td><?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name']); ?></td>
                                 <td><?php echo htmlspecialchars($student['program']); ?></td>
-                                <td><span class="badge <?php echo strtolower($student['status']); ?>"><?php echo $student['status']; ?></span></td>
+                                <td><span class="badge <?php echo htmlspecialchars(strtolower($student['status']), ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($student['status'], ENT_QUOTES, 'UTF-8'); ?></span></td>
                             </tr>
                             <?php endwhile; ?>
                         </tbody>
@@ -227,9 +227,9 @@ $conn->close();
                             <?php while($announcement = $recent_announcements->fetch_assoc()): ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($announcement['title']); ?></td>
-                                <td><?php echo $announcement['category']; ?></td>
+                                <td><?php echo htmlspecialchars($announcement['category'], ENT_QUOTES, 'UTF-8'); ?></td>
                                 <td><?php echo date('M d, Y', strtotime($announcement['publish_date'])); ?></td>
-                                <td><span class="badge <?php echo strtolower($announcement['status']); ?>"><?php echo $announcement['status']; ?></span></td>
+                                <td><span class="badge <?php echo htmlspecialchars(strtolower($announcement['status']), ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($announcement['status'], ENT_QUOTES, 'UTF-8'); ?></span></td>
                             </tr>
                             <?php endwhile; ?>
                         </tbody>

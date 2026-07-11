@@ -34,8 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if ($action === 'delete') {
-        $id = $_POST['id'];
-        $conn->query("DELETE FROM colleges WHERE id=$id");
+        $id = (int)$_POST['id'];
+        $stmt = $conn->prepare("DELETE FROM colleges WHERE id=?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         $message = "College deleted successfully!";
     }
 }
@@ -67,7 +69,7 @@ $conn->close();
             
             <?php if (isset($message)): ?>
                 <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i> <?php echo $message; ?>
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
                 </div>
             <?php endif; ?>
             
@@ -86,7 +88,7 @@ $conn->close();
                     <tbody>
                         <?php while($college = $colleges->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo $college['id']; ?></td>
+                            <td><?php echo (int)$college['id']; ?></td>
                             <td><?php echo htmlspecialchars($college['college_code']); ?></td>
                             <td><?php echo htmlspecialchars($college['college_name']); ?></td>
                             <td><?php echo htmlspecialchars($college['dean']); ?></td>
@@ -95,7 +97,7 @@ $conn->close();
                                 <button class="btn-icon" onclick="editCollege(<?php echo htmlspecialchars(json_encode($college)); ?>)">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo $college['id']; ?>, 'college')">
+                                <button class="btn-icon delete" onclick="confirmDelete(<?php echo (int)$college['id']; ?>, 'college')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>

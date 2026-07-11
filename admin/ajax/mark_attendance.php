@@ -17,15 +17,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $conn = getConnection();
     $marked_by = $_SESSION['admin_id'] ?? 0;
-    
-    // Check if already marked today
-    $check = $conn->query("SELECT id FROM attendance WHERE student_id=$student_id AND course_id=$course_id AND attendance_date=CURDATE()");
-    
-    if ($check->num_rows > 0) {
-        // Update existing
-        $conn->query("UPDATE attendance SET status='$status' WHERE student_id=$student_id AND course_id=$course_id AND attendance_date=CURDATE()");
+    $student_id = (int)$student_id;
+    $course_id = (int)$course_id;
+
+    $allowed_statuses = ['Present', 'Absent', 'Late'];
+    if (!in_array($status, $allowed_statuses)) {
+        $status = 'Present';
+    }
+
+    $check = $conn->prepare("SELECT id FROM attendance WHERE student_id=? AND course_id=? AND attendance_date=CURDATE()");
+    $check->bind_param("ii", $student_id, $course_id);
+    $check->execute();
+    $result = $check->get_result();
+
+    if ($result->num_rows > 0) {
+        $update = $conn->prepare("UPDATE attendance SET status=? WHERE student_id=? AND course_id=? AND attendance_date=CURDATE()");
+        $update->bind_param("sii", $status, $student_id, $course_id);
+        $update->execute();
     } else {
-        // Insert new
         $stmt = $conn->prepare("INSERT INTO attendance (student_id, course_id, status, marked_by) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iisi", $student_id, $course_id, $status, $marked_by);
         $stmt->execute();

@@ -15,6 +15,7 @@ error_log
 
 # Uploads (keep structure, ignore files)
 uploads/*
+!uploads/.gitkeep
 
 # Environment
 .env
